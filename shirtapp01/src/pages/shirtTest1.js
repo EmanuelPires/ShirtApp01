@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function shirtTest1() {
+export default function ShirtTest1() {
   return (
     <div>
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
