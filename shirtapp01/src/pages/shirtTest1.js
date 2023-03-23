@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 
 export default function ShirtTest1() {
   const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
-  let canvasWidth = viewportWidth * 0.6;
-  let canvasHeight = canvasWidth * 0.3;
+  let canvasWidth = viewportWidth * 0.75;
+  let canvasHeight = canvasWidth * 0.34482759;
 
   //const leftSideRef = useRef();
   //console.log(leftSideRef.current + "left Ref");
@@ -29,16 +29,16 @@ export default function ShirtTest1() {
     <div>
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <dl className="grid grid-cols-1 gap-y-16 gap-x-8 text-center lg:grid-cols-2">
-          <div className="mx-auto flex max-w-xs flex-col ">
+          <div className=" flex  flex-col ">
             SIBLING COLUMN1
             <canvas
               id="myCanvas"
               width={canvasWidth}
-              height="100"
+              height={canvasHeight}
               style={{ border: "1px solid #000000" }}
             ></canvas>
           </div>
-          <div className="mx-auto flex max-w-xs flex-col ">SIBLING COLUMN2</div>
+          <div className=" flex  flex-col ">SIBLING COLUMN2</div>
         </dl>
       </div>
     </div>
