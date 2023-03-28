@@ -13,10 +13,7 @@ export default function ShirtTest1() {
   function nameChange(event) {
     curLetter.push(event.which);
     //console.log(drawName);
-    if (drawName.length > 2) {
-      curLetter.shift();
-      RenderCanvas(curLetter, canvasArray);
-    } else if (curLetter.length == 2) {
+    if (drawName.length >= 2) {
       RenderCanvas(curLetter, canvasArray);
     } else if (curLetter.length < 2) {
       console.log("1 letter in Array");
