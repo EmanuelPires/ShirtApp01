@@ -19,40 +19,15 @@ export default function ShirtTest1() {
       console.log("1 letter in Array");
       console.log(curLetter);
     }
-
-    //canvasEvent(changeData, canvasArray);
-    //
   }
-
-  // function canvasEvent(e, canvasArray) {
-  //   console.log("event data " + e);
-  //   console.log(canvasArray);
-
-  //   This function is to run the draw but inside the shirtTest file
-  // }
 
   useEffect(() => {
     function handleWidth() {
       setViewportWidth(window.innerWidth);
-      //console.log("Window size is " + viewportWidth);
-      //console.log("canvas width is " + canvasWidth);
-      //console.log("canvas height is " + canvasHeight);
+
       setCanvasArray([canvasWidth, canvasHeight]);
     }
     window.addEventListener("resize", handleWidth);
-
-    // function addLetterToArray() {
-    //   setDrawName((current) => [...current, curLetter]);
-    //   console.log(drawName);
-    // }
-    //function nameChange() {
-    // console.log(drawName);
-    //  console.log(e);
-    //  nameArray.push();
-    // }
-    // document
-    //   .getElementById("drawName")
-    //   .addEventListener("keyup", addLetterToArray);
   });
 
   return (
