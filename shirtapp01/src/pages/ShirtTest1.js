@@ -3,17 +3,17 @@ import RenderCanvas from "../components/RenderCanvas";
 
 export default function ShirtTest1() {
   const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
-  const [drawName, setDrawName] = useState([]);
+  //const [drawName, setDrawName] = useState([]);
 
   const [canvasArray, setCanvasArray] = useState();
-  let curLetter = drawName;
+  let curLetter = [];
   let canvasWidth = viewportWidth * 0.75;
   let canvasHeight = canvasWidth * 0.34482759;
 
   function nameChange(event) {
     curLetter.push(event.which);
     //console.log(drawName);
-    if (drawName.length >= 2) {
+    if (curLetter.length >= 2) {
       RenderCanvas(curLetter, canvasArray);
     } else if (curLetter.length < 2) {
       console.log("1 letter in Array");
