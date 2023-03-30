@@ -3,16 +3,17 @@ import RenderCanvas from "../components/RenderCanvas";
 
 export default function ShirtTest1() {
   const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
-  //const [drawName, setDrawName] = useState([]);
+  const [drawName, setDrawName] = useState("");
+  //const [nameArray, setNameArray] = useState([]);
 
   const [canvasArray, setCanvasArray] = useState();
-  let curLetter = [];
+
   let canvasWidth = viewportWidth * 0.75;
   let canvasHeight = canvasWidth * 0.34482759;
 
   function nameChange(event) {
-    curLetter.push(event.which);
-    //console.log(drawName);
+    let curLetter = event.toLowerCase().split("");
+    console.log(event);
     if (curLetter.length >= 2) {
       RenderCanvas(curLetter, canvasArray);
     } else if (curLetter.length < 2) {
@@ -24,11 +25,17 @@ export default function ShirtTest1() {
   useEffect(() => {
     function handleWidth() {
       setViewportWidth(window.innerWidth);
+      //console.log("is the firing on change?");
 
       setCanvasArray([canvasWidth, canvasHeight]);
+      //nameChange(drawName);
     }
+    handleWidth();
+    //console.log(drawName);
+
     window.addEventListener("resize", handleWidth);
-  });
+    nameChange(drawName);
+  }, [drawName, viewportWidth]);
 
   return (
     <div>
@@ -52,7 +59,12 @@ export default function ShirtTest1() {
                 id="drawName"
                 placeholder="TYPE YOUR NAME"
                 className="block w-full rounded-md border-0 py-2 px-3.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                onKeyUp={nameChange}
+                // onKeyUp={(e) => {
+                //   setNameArray((current) => [...current, e.key]);
+                // }}
+                onChange={(e) => {
+                  setDrawName(e.target.value);
+                }}
               />
             </form>
           </div>
