@@ -1,7 +1,10 @@
-import { useEffect } from "react";
-
-const RenderCanvas = function (event, coordinates) {
+function renderCanvas(e, curLetter, coordinates) {
   //const [letters, setLetters] = useEffect([]);
+
+  //console.log(curLetter);
+
+  var c = document.getElementById("myCanvas");
+  var ctx = c.getContext("2d");
 
   //setLetters(event);
   const coordKey = {
@@ -32,50 +35,32 @@ const RenderCanvas = function (event, coordinates) {
     x: [coordinates[0] * 0.450666667, coordinates[1] * 0.704],
     y: [coordinates[0] * 0.185333333, coordinates[1] * 0.32],
     z: [coordinates[0] * 0.146666667, coordinates[1] * 0.704],
-    // 97: [coordinates[0] * 0.433333333, coordinates[1] * 0.48],
-    // 98: [coordinates[0] * 0.304, coordinates[1] * 0.704],
-    // 99: [coordinates[0] * 0.277333333, coordinates[1] * 0.704],
-    // 100: [coordinates[0] * 0.264, coordinates[1] * 0.48],
-    // 101: [coordinates[0] * 0.337333333, coordinates[1] * 0.32],
-    // 102: [coordinates[0] * 0.406666667, coordinates[1] * 0.48],
-    // 103: [coordinates[0] * 0.045333333, coordinates[1] * 0.48],
-    // 104: [coordinates[0] * 0.58, coordinates[1] * 0.48],
-    // 105: [coordinates[0] * 0.053333333, coordinates[1] * 0.32],
-    // 106: [coordinates[0] * 0.592, coordinates[1] * 0.48],
-    // 107: [coordinates[0] * 0.065333333, coordinates[1] * 0.48],
-    // 108: [coordinates[0] * 0.566666667, coordinates[1] * 0.48],
-    // 109: [coordinates[0] * 0.5, coordinates[1] * 0.704],
-    // 110: [coordinates[0] * 0.64, coordinates[1] * 0.704],
-    // 111: [coordinates[0] * 0.705333333, coordinates[1] * 0.32],
-    // 112: [coordinates[0] * 0.132, coordinates[1] * 0.32],
-    // 113: [coordinates[0] * 0.326666667, coordinates[1] * 0.32],
-    // 114: [coordinates[0] * 0.213333333, coordinates[1] * 0.32],
-    // 115: [coordinates[0] * 0.386666667, coordinates[1] * 0.48],
-    // 116: [coordinates[0] * 0.518666667, coordinates[1] * 0.32],
-    // 117: [coordinates[0] * 0.373333333, coordinates[1] * 0.32],
-    // 118: [coordinates[0] * 0.2, coordinates[1] * 0.704],
-    // 119: [coordinates[0] * 0.246666667, coordinates[1] * 0.32],
-    // 120: [coordinates[0] * 0.450666667, coordinates[1] * 0.704],
-    // 121: [coordinates[0] * 0.185333333, coordinates[1] * 0.32],
-    // 122: [coordinates[0] * 0.19172414, coordinates[1] * 0.704],
   };
-  console.log(coordinates[0] + " x axis");
-  console.log(coordinates[1] + " y axis");
-  console.log(event);
 
-  if (event.length >= 2) {
-    for (var i = 1; i < event.length; i++) {
-      console.log("We're in the loop of RenderCanvas ");
-      console.log(event);
-      var c = document.getElementById("myCanvas");
-      var ctx = c.getContext("2d");
+  if (e === "canvasResize") {
+    ctx.clearRect(0, 0, coordinates[0], coordinates[1]);
+    for (var i = 1; i < curLetter.length; i++) {
+      console.log("Drawing due to Canvas Change ");
+      console.log(curLetter);
 
       ctx.beginPath();
-      ctx.moveTo(coordKey[event[i - 1]][0], coordKey[event[i - 1]][1]);
-      ctx.lineTo(coordKey[event[i]][0], coordKey[event[i]][1]);
+      ctx.moveTo(coordKey[curLetter[i - 1]][0], coordKey[curLetter[i - 1]][1]);
+      ctx.lineTo(coordKey[curLetter[i]][0], coordKey[curLetter[i]][1]);
       ctx.stroke();
     }
-  }
-};
+  } else if (curLetter.length > 1) {
+    console.log("Drawing due to TYPING ");
+    ctx.clearRect(0, 0, coordinates[0], coordinates[1]);
 
-export default RenderCanvas;
+    for (i = 1; i < curLetter.length; i++) {
+      ctx.beginPath();
+      ctx.moveTo(coordKey[curLetter[i - 1]][0], coordKey[curLetter[i - 1]][1]);
+      ctx.lineTo(coordKey[curLetter[i]][0], coordKey[curLetter[i]][1]);
+      ctx.stroke();
+    }
+  } else if (curLetter.length < 2) {
+    ctx.clearRect(0, 0, coordinates[0], coordinates[1]);
+  }
+}
+
+export default renderCanvas;
