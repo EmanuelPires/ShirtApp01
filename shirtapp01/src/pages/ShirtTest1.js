@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 import renderCanvas from "../components/RenderCanvas";
-//import DeleteCanvas from "../components/DeleteCanvas";
 
 export default function ShirtTest1() {
   //const ref = useRef(null);
@@ -10,7 +9,7 @@ export default function ShirtTest1() {
   const [drawName, setDrawName] = useState("");
 
   const isMounted = useRef(false);
-  const ref = useRef(null);
+  //const ref = useRef(null);
 
   const [canvasArray, setCanvasArray] = useState();
 
@@ -45,7 +44,10 @@ export default function ShirtTest1() {
 
     setDrawName(document.getElementById("drawName").value);
     initialDimensions();
-    window.addEventListener("resize", initialDimensions);
+
+    document
+      .getElementById("canDiv")
+      .addEventListener("resize", initialDimensions);
   }, [viewportWidth]);
 
   useEffect(() => {
@@ -64,7 +66,7 @@ export default function ShirtTest1() {
     <div>
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <dl className="grid grid-cols-1 gap-y-16 gap-x-8 text-center lg:grid-cols-2">
-          <div className=" flex  flex-col " id="canDiv" ref={ref}>
+          <div className=" flex  flex-col " id="canDiv">
             SIBLING COLUMN1
             <canvas
               id="myCanvas"
