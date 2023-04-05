@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
-import renderCanvas from "../components/RenderCanvas";
+import renderCanvas from "../renderFunctions/renderCanvas";
+import Keyboard01 from "../assets/Keyboard01.png";
 
 export default function ShirtTest1() {
   //const ref = useRef(null);
@@ -33,8 +34,8 @@ export default function ShirtTest1() {
 
       let width = document.getElementById("canDiv").offsetWidth;
       console.log("Width of Div! " + width);
-      setCanvasWidth(width * 0.75);
-      setCanvasHeight(width * 0.33);
+      setCanvasWidth(width);
+      setCanvasHeight(width * 0.4);
       setCanvasArray([width * 0.75, width * 0.33]);
       console.log("MISSING DRAWNAME " + drawName);
 
@@ -62,6 +63,37 @@ export default function ShirtTest1() {
     settingCanvasWidth();
   }, [drawName]);
 
+  useEffect(() => {
+    if (isMounted.current) {
+      var c = document.getElementById("myCanvas");
+      var ctx = c.getContext("2d");
+      var canvas = ctx.canvas;
+      var imageObj1 = new Image();
+      imageObj1.src = Keyboard01;
+      imageObj1.onload = function () {
+        ctx.drawImage(imageObj1, 0, 0);
+        var hRatio = canvas.width / imageObj1.width;
+        var vRatio = canvas.height / imageObj1.height;
+        var ratio = Math.min(hRatio, vRatio);
+        var centerShift_x = (canvas.width - imageObj1.width * ratio) / 2;
+        var centerShift_y = (canvas.height - imageObj1.height * ratio) / 2;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(
+          imageObj1,
+          0,
+          0,
+          imageObj1.width,
+          imageObj1.height,
+          centerShift_x,
+          centerShift_y,
+          imageObj1.width * ratio,
+          imageObj1.height * ratio
+        );
+      };
+    } else {
+      return;
+    }
+  }, [isMounted]);
   return (
     <div>
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
