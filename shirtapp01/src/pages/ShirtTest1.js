@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import renderCanvas from "../renderFunctions/renderCanvas";
+import renderCanvas from "../RenderFunctions/renderCanvas";
 import Keyboard01 from "../assets/Keyboard01.png";
 
 export default function ShirtTest1() {
@@ -8,10 +8,7 @@ export default function ShirtTest1() {
   const [canvasWidth, setCanvasWidth] = useState(0);
   const [canvasHeight, setCanvasHeight] = useState(0);
   const [drawName, setDrawName] = useState("");
-
   const isMounted = useRef(false);
-  //const ref = useRef(null);
-
   const [canvasArray, setCanvasArray] = useState();
 
   function nameChange(e, drawName) {
@@ -36,7 +33,7 @@ export default function ShirtTest1() {
       console.log("Width of Div! " + width);
       setCanvasWidth(width);
       setCanvasHeight(width * 0.4);
-      setCanvasArray([width * 0.75, width * 0.33]);
+      setCanvasArray([width, width * 0.4]);
       console.log("MISSING DRAWNAME " + drawName);
 
       let nonEvent = "canvasResize";
@@ -46,13 +43,11 @@ export default function ShirtTest1() {
     setDrawName(document.getElementById("drawName").value);
     initialDimensions();
 
-    document
-      .getElementById("canDiv")
-      .addEventListener("resize", initialDimensions);
+    window.addEventListener("resize", initialDimensions);
   }, [viewportWidth]);
 
   useEffect(() => {
-    function settingCanvasWidth() {
+    function drawFromTyping() {
       if (isMounted.current) {
         let e = "typing";
         nameChange(e, drawName);
@@ -60,40 +55,36 @@ export default function ShirtTest1() {
         isMounted.current = true;
       }
     }
-    settingCanvasWidth();
+    drawFromTyping();
   }, [drawName]);
 
-  useEffect(() => {
-    if (isMounted.current) {
-      var c = document.getElementById("myCanvas");
-      var ctx = c.getContext("2d");
-      var canvas = ctx.canvas;
-      var imageObj1 = new Image();
-      imageObj1.src = Keyboard01;
-      imageObj1.onload = function () {
-        ctx.drawImage(imageObj1, 0, 0);
-        var hRatio = canvas.width / imageObj1.width;
-        var vRatio = canvas.height / imageObj1.height;
-        var ratio = Math.min(hRatio, vRatio);
-        var centerShift_x = (canvas.width - imageObj1.width * ratio) / 2;
-        var centerShift_y = (canvas.height - imageObj1.height * ratio) / 2;
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.drawImage(
-          imageObj1,
-          0,
-          0,
-          imageObj1.width,
-          imageObj1.height,
-          centerShift_x,
-          centerShift_y,
-          imageObj1.width * ratio,
-          imageObj1.height * ratio
-        );
-      };
-    } else {
-      return;
-    }
-  }, [isMounted]);
+  // useEffect(() => {
+  //   var c = document.getElementById("myCanvas");
+  //   var ctx = c.getContext("2d");
+  //   var canvas = ctx.canvas;
+  //   var imageObj1 = new Image();
+  //   imageObj1.src = Keyboard01;
+  //   imageObj1.onload = function () {
+  //     ctx.drawImage(imageObj1, 0, 0);
+  //     var hRatio = canvas.width / imageObj1.width;
+  //     var vRatio = canvas.height / imageObj1.height;
+  //     var ratio = Math.min(hRatio, vRatio);
+  //     var centerShift_x = (canvas.width - imageObj1.width * ratio) / 2;
+  //     var centerShift_y = (canvas.height - imageObj1.height * ratio) / 2;
+  //     ctx.clearRect(0, 0, canvas.width, canvas.height);
+  //     ctx.drawImage(
+  //       imageObj1,
+  //       0,
+  //       0,
+  //       imageObj1.width,
+  //       imageObj1.height,
+  //       centerShift_x,
+  //       centerShift_y,
+  //       imageObj1.width * ratio,
+  //       imageObj1.height * ratio
+  //     );
+  //   };
+  // }, []);
   return (
     <div>
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
@@ -104,7 +95,10 @@ export default function ShirtTest1() {
               id="myCanvas"
               width={canvasWidth}
               height={canvasHeight}
-              style={{ border: "1px solid #000000" }}
+              style={{
+                border: "1px solid #000000",
+                // background: "../assets/Keyboard01",
+              }}
             ></canvas>
           </div>
           <div className=" flex  flex-col ">

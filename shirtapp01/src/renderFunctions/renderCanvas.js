@@ -1,10 +1,12 @@
+import showKeyImage from "./renderFunctions/showKeyImage";
 function renderCanvas(e, curLetter, coordinates) {
   //const [letters, setLetters] = useEffect([]);
 
   //console.log(curLetter);
 
   var c = document.getElementById("myCanvas");
-  var ctx = c.getContext("2d");
+  var ctx = c.getContext("2d", { alpha: true });
+  var canvas = ctx.canvas;
 
   //setLetters(event);
   const coordKey = {
@@ -24,8 +26,8 @@ function renderCanvas(e, curLetter, coordinates) {
     m: [coordinates[0] * 0.5, coordinates[1] * 0.704],
     n: [coordinates[0] * 0.64, coordinates[1] * 0.704],
     o: [coordinates[0] * 0.705333333, coordinates[1] * 0.32],
-    p: [coordinates[0] * 0.132, coordinates[1] * 0.32],
-    q: [coordinates[0] * 0.326666667, coordinates[1] * 0.32],
+    p: [coordinates[0] * 0.98, coordinates[1] * 0.32],
+    q: [coordinates[0] * 0.09, coordinates[1] * 0.15],
     r: [coordinates[0] * 0.213333333, coordinates[1] * 0.32],
     s: [coordinates[0] * 0.386666667, coordinates[1] * 0.48],
     t: [coordinates[0] * 0.518666667, coordinates[1] * 0.32],
@@ -37,21 +39,24 @@ function renderCanvas(e, curLetter, coordinates) {
     z: [coordinates[0] * 0.146666667, coordinates[1] * 0.704],
   };
 
-  if (e === "canvasResize") {
-    ctx.clearRect(0, 0, coordinates[0], coordinates[1]);
+  if (e === "canvasResize" && curLetter.length > 1) {
+    console.log("first coordinate: " + coordinates[0]);
+    console.log("second coordinate: " + coordinates[1]);
+    setTimeout(ctx.clearRect(0, 0, coordinates[0], coordinates[1]), 500);
+    //showKeyImage();
+    ctx.beginPath();
+    ctx.moveTo(coordKey[curLetter[i - 1]][0], coordKey[curLetter[i - 1]][1]);
     for (var i = 1; i < curLetter.length; i++) {
       console.log("Drawing due to Canvas Change ");
       console.log(curLetter);
 
-      ctx.beginPath();
-      ctx.moveTo(coordKey[curLetter[i - 1]][0], coordKey[curLetter[i - 1]][1]);
+      //ctx.moveTo(coordKey[curLetter[i - 1]][0], coordKey[curLetter[i - 1]][1]);
       ctx.lineTo(coordKey[curLetter[i]][0], coordKey[curLetter[i]][1]);
       ctx.stroke();
     }
   } else if (curLetter.length > 1) {
-    console.log("Drawing due to TYPING ");
     ctx.clearRect(0, 0, coordinates[0], coordinates[1]);
-
+    //showKeyImage();
     for (i = 1; i < curLetter.length; i++) {
       ctx.beginPath();
       ctx.moveTo(coordKey[curLetter[i - 1]][0], coordKey[curLetter[i - 1]][1]);
