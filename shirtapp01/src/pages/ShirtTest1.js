@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import renderCanvas from "../RenderFunctions/renderCanvas";
+import showKeyImage from "../RenderFunctions/showKeyImage";
 import Keyboard01 from "../assets/Keyboard01.png";
 
 export default function ShirtTest1() {
   //const ref = useRef(null);
   const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
+  const [viewportHeight, setViewportHeight] = useState(window.innerHeight);
   const [canvasWidth, setCanvasWidth] = useState(0);
   const [canvasHeight, setCanvasHeight] = useState(0);
   const [drawName, setDrawName] = useState("");
@@ -28,23 +30,26 @@ export default function ShirtTest1() {
     //SETTING THE INITIAL DIMENSIONS FOR CANVAS ELEMENT
     function initialDimensions() {
       setViewportWidth(window.innerWidth);
-
+      setViewportHeight(window.innerHeight);
       let width = document.getElementById("canDiv").offsetWidth;
       console.log("Width of Div! " + width);
       setCanvasWidth(width);
       setCanvasHeight(width * 0.4);
       setCanvasArray([width, width * 0.4]);
+      setDrawName(document.getElementById("drawName").value);
       console.log("MISSING DRAWNAME " + drawName);
 
       let nonEvent = "canvasResize";
+
       nameChange(nonEvent, drawName);
     }
 
     setDrawName(document.getElementById("drawName").value);
+
     initialDimensions();
 
     window.addEventListener("resize", initialDimensions);
-  }, [viewportWidth]);
+  }, [viewportWidth, viewportHeight]);
 
   useEffect(() => {
     function drawFromTyping() {
@@ -58,50 +63,44 @@ export default function ShirtTest1() {
     drawFromTyping();
   }, [drawName]);
 
-  // useEffect(() => {
-  //   var c = document.getElementById("myCanvas");
-  //   var ctx = c.getContext("2d");
-  //   var canvas = ctx.canvas;
-  //   var imageObj1 = new Image();
-  //   imageObj1.src = Keyboard01;
-  //   imageObj1.onload = function () {
-  //     ctx.drawImage(imageObj1, 0, 0);
-  //     var hRatio = canvas.width / imageObj1.width;
-  //     var vRatio = canvas.height / imageObj1.height;
-  //     var ratio = Math.min(hRatio, vRatio);
-  //     var centerShift_x = (canvas.width - imageObj1.width * ratio) / 2;
-  //     var centerShift_y = (canvas.height - imageObj1.height * ratio) / 2;
-  //     ctx.clearRect(0, 0, canvas.width, canvas.height);
-  //     ctx.drawImage(
-  //       imageObj1,
-  //       0,
-  //       0,
-  //       imageObj1.width,
-  //       imageObj1.height,
-  //       centerShift_x,
-  //       centerShift_y,
-  //       imageObj1.width * ratio,
-  //       imageObj1.height * ratio
-  //     );
-  //   };
-  // }, []);
+  useEffect(() => {
+    showKeyImage();
+  }, []);
   return (
     <div>
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <dl className="grid grid-cols-1 gap-y-16 gap-x-8 text-center lg:grid-cols-2">
-          <div className=" flex  flex-col " id="canDiv">
-            SIBLING COLUMN1
-            <canvas
-              id="myCanvas"
-              width={canvasWidth}
-              height={canvasHeight}
-              style={{
-                border: "1px solid #000000",
-                // background: "../assets/Keyboard01",
-              }}
-            ></canvas>
+        <div className="grid grid-cols-1 gap-y-16 gap-x-8 text-center lg:grid-cols-2 relative">
+          <div className="   flex-col " id="canDiv">
+            <p>SIBLING COLUMN</p>
+
+            <div className="relative " height={canvasHeight}>
+              <canvas
+                className="fixed z-10"
+                id="myCanvas"
+                width={canvasWidth}
+                height={canvasHeight}
+                style={{
+                  zIndex: 2,
+                  border: "1px solid #000000",
+                  // background: "../assets/Keyboard01",
+                  //position: "absolute",
+                }}
+              ></canvas>
+
+              <canvas
+                className="fixed z-0"
+                id="canBackground"
+                width={canvasWidth}
+                height={canvasHeight}
+                style={{
+                  border: "1px solid #000000",
+                  //background: "../assets/Keyboard01",
+                  //position: "absolute",
+                }}
+              ></canvas>
+            </div>
           </div>
-          <div className=" flex  flex-col ">
+          <div className="   flex-col  ">
             SIBLING COLUMN2
             <form>
               <input
@@ -116,7 +115,7 @@ export default function ShirtTest1() {
               />
             </form>
           </div>
-        </dl>
+        </div>
       </div>
     </div>
   );

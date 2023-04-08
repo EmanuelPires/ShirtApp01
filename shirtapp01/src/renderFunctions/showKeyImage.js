@@ -1,7 +1,7 @@
 import Keyboard01 from "../assets/Keyboard01.png";
 
 function showKeyImage() {
-  const c = document.getElementById("myCanvas");
+  const c = document.getElementById("canBackground");
   let ctx = c.getContext("2d");
 
   console.log("Trying to draw keyboard image");
