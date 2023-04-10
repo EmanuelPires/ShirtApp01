@@ -11,6 +11,7 @@ export default function ShirtTest1() {
   const [canvasHeight, setCanvasHeight] = useState(0);
   const [drawName, setDrawName] = useState("");
   const isMounted = useRef(false);
+  const [canIsVisible, setCanIsVisible] = useState(true);
   const [canvasArray, setCanvasArray] = useState();
 
   function nameChange(e, drawName) {
@@ -26,6 +27,15 @@ export default function ShirtTest1() {
     renderCanvas(e, curLetter, canvasArray);
   }
 
+  function toggleCanBackground() {
+    if (canIsVisible) {
+      document.getElementById("canBackground").style.visibility = "hidden";
+      setCanIsVisible(false);
+    } else {
+      document.getElementById("canBackground").style.visibility = "visible";
+      setCanIsVisible(true);
+    }
+  }
   useEffect(() => {
     //SETTING THE INITIAL DIMENSIONS FOR CANVAS ELEMENT
     function initialDimensions() {
@@ -45,9 +55,11 @@ export default function ShirtTest1() {
     }
 
     setDrawName(document.getElementById("drawName").value);
+    showKeyImage();
 
     initialDimensions();
-
+    //setTimeout(setEmptyDivHeight, 1000);
+    document.getElementById("canWrapper").style.height = `${canvasHeight}px`;
     window.addEventListener("resize", initialDimensions);
   }, [viewportWidth, viewportHeight]);
 
@@ -70,12 +82,12 @@ export default function ShirtTest1() {
     <div>
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-y-16 gap-x-8 text-center lg:grid-cols-2 relative">
-          <div className="   flex-col " id="canDiv">
+          <div className="flex-col " id="canDiv">
             <p>SIBLING COLUMN</p>
 
-            <div className="relative " height={canvasHeight}>
+            <div className="relative" id="canWrapper">
               <canvas
-                className="fixed z-10"
+                className="absolute z-10 "
                 id="myCanvas"
                 width={canvasWidth}
                 height={canvasHeight}
@@ -88,7 +100,7 @@ export default function ShirtTest1() {
               ></canvas>
 
               <canvas
-                className="fixed z-0"
+                className="absolute z-0"
                 id="canBackground"
                 width={canvasWidth}
                 height={canvasHeight}
@@ -98,6 +110,7 @@ export default function ShirtTest1() {
                   //position: "absolute",
                 }}
               ></canvas>
+              {/* <div className=" "></div> */}
             </div>
           </div>
           <div className="   flex-col  ">
@@ -114,6 +127,14 @@ export default function ShirtTest1() {
                 }}
               />
             </form>
+            <button
+              onClick={() => {
+                toggleCanBackground();
+              }}
+              class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded w-full"
+            >
+              Toggle Keyboard Image
+            </button>
           </div>
         </div>
       </div>
